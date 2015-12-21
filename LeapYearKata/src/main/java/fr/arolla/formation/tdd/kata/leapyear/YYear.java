@@ -1,4 +1,4 @@
-package fr.arolla.formation.tdd.kata.fizzbuzz.leapyear;
+package fr.arolla.formation.tdd.kata.leapyear;
 
 /**
  * Created by Dan on 21/12/2015.

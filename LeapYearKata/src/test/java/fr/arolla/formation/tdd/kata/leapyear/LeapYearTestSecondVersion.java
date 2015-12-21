@@ -1,4 +1,4 @@
-package fr.arolla.formation.tdd.kata.fizzbuzz.leapyear;
+package fr.arolla.formation.tdd.kata.leapyear;
 
 import org.junit.Test;
 
