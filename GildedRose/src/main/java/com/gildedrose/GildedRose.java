@@ -9,63 +9,54 @@ class GildedRose {
 
     public void updateQuality() {
         for (Item item : items) {
-            processItem(item);
+            updateItem(item);
         }
     }
 
-    private void processItem(Item item) {
-
-        if (item.name.equals("Sulfuras, Hand of Ragnaros")) {
-            return;
-        }
-
+    private void updateItem(Item item) {
         if (item.name.equals("Aged Brie")) {
-            processAgedBrieItem(item);
+            updateAgedBrieItem(item);
             return;
         }
 
         if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-            processBackstageItem(item);
+            updateBackstageItem(item);
             return;
         }
 
-
-        processOtherItem(item);
+        if (item.name.equals("Sulfuras, Hand of Ragnaros")) {
+            return;
+        }
+        updateOtherItem(item);
     }
 
-    private void processOtherItem(Item item) {
-        if (item.quality > 0) {
-            item.quality = item.quality - 1;
-        }
+    private void updateOtherItem(Item item) {
+        ItemWrapper wrapper = new ItemWrapper(item);
+
+        wrapper.decreaseQuality();
 
         item.sellIn = item.sellIn - 1;
-
         if (item.sellIn < 0) {
-            if (item.quality > 0) {
-                item.quality = item.quality - 1;
-            }
+            wrapper.decreaseQuality();
         }
     }
 
-    private void processBackstageItem(Item item) {
-        if (item.quality < 50) {
-            item.quality = item.quality + 1;
+    private void updateBackstageItem(Item item) {
+        ItemWrapper wrapper = new ItemWrapper(item);
 
-            if (item.sellIn < 11) {
-                if (item.quality < 50) {
-                    item.quality = item.quality + 1;
-                }
-            }
+        wrapper.increaseQuality();
 
-            if (item.sellIn < 6) {
-                if (item.quality < 50) {
-                    item.quality = item.quality + 1;
-                }
+        if (item.sellIn < 11) {
+            wrapper.increaseQuality();
+        }
+
+        if (item.sellIn < 6) {
+            if (item.quality < 50) {
+                wrapper.increaseQuality();
             }
         }
 
         item.sellIn = item.sellIn - 1;
-
         if (item.sellIn < 0) {
             item.quality = 0;
         }
@@ -73,17 +64,13 @@ class GildedRose {
         return;
     }
 
-    private void processAgedBrieItem(Item item) {
-        if (item.quality < 50) {
-            item.quality = item.quality + 1;
-        }
+    private void updateAgedBrieItem(Item item) {
+        ItemWrapper wrapper = new ItemWrapper(item);
+        wrapper.increaseQuality();
 
         item.sellIn = item.sellIn - 1;
-
         if (item.sellIn < 0) {
-            if (item.quality < 50) {
-                item.quality = item.quality + 1;
-            }
+            wrapper.increaseQuality();
         }
 
         return;
